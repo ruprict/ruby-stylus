@@ -13,6 +13,12 @@ module Stylus
         @data = build_mixin_body(scope) + data
         super
       end
+      # Internal: Appends stylus mixin for asset_url and asset_path support
+      def self.call(scope, &block)
+        puts scope[:filename]
+        puts scope[:name]
+        new(scope[:filename]).evaluate(scope, nil,  &block)
+      end
 
       protected
 
@@ -36,7 +42,7 @@ asset-path(key)
       #
       # Returns string representations of hash in Stylus syntax
       def assets_hash(scope)
-        @assets_hash ||= scope.environment.each_logical_path.each_with_object({ :url => '', :path => '' }) do |logical_path, assets_hash|
+        @assets_hash ||= scope[:environment].each_logical_path.each_with_object({ :url => '', :path => '' }) do |logical_path, assets_hash|
           extensions = EXCLUDED_EXTENSIONS.join('|')
           unless File.extname(logical_path) =~ Regexp.new("^(\.(#{extensions})|)$")
             path_to_asset = scope.path_to_asset(logical_path)

@@ -6,3 +6,8 @@ spec/support/generators/tmp/
 docs
 log/
 .vagrant/
+coverage/
+.ruby-gemset
+.ruby-version
+.DS_Store
+.swp
